@@ -21,7 +21,8 @@ Repositorio para curso de desarrollo de contratos inteligentes
 * [OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/) Tokens Docs 4.x
 * [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/release-v4.2/contracts/token) Tokens Github
 * [Solidity](https://docs.soliditylang.org/en/v0.8.10/introduction-to-smart-contracts.html) 
-* 
+* [OpenSea Testnet](https://testnets.opensea.io/)
+
 # Creacion de Contratos
 
 1. Instalar Hardhat
@@ -83,22 +84,87 @@ Repositorio para curso de desarrollo de contratos inteligentes
 
 3. Crear carpeta contracts en la carpeta src de la nueva app
 4. Agregar el ABI del contrato en un nuevo archivo myNFTToken.json
+5. Instalar Ethers.js
+``` 
+    npm install --save ethers
+``` 
+
 5. Remplazar el contenido del archivo app.js por lo siguiente:
     ``` javascript
-    import { useEffect } from 'react';
+    import { useEffect, useState } from 'react';
     import './App.css';
     import contract from './contracts/NFTCollectible.json';
+    import { ethers } from 'ethers';
 
     const contractAddress = "0x355638a4eCcb777794257f22f50c289d4189F245";
     const abi = contract.abi;
 
     function App() {
 
-    const checkWalletIsConnected = () => { }
+    const [currentAccount, setCurrentAccount] = useState(null);
 
-    const connectWalletHandler = () => { }
+    const checkWalletIsConnected = async () => {
+        const { ethereum } = window;
 
-    const mintNftHandler = () => { }
+        if (!ethereum) {
+        console.log("Make sure you have Metamask installed!");
+        return;
+        } else {
+        console.log("Wallet exists! We're ready to go!")
+        }
+
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+        if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account: ", account);
+        setCurrentAccount(account);
+        } else {
+        console.log("No authorized account found");
+        }
+    }
+
+    const connectWalletHandler = async () => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+        alert("Please install Metamask!");
+        }
+
+        try {
+        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        console.log("Found an account! Address: ", accounts[0]);
+        setCurrentAccount(accounts[0]);
+        } catch (err) {
+        console.log(err)
+        }
+    }
+
+    const mintNftHandler = async () => {
+        try {
+        const { ethereum } = window;
+
+        if (ethereum) {
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            const signer = provider.getSigner();
+            const nftContract = new ethers.Contract(contractAddress, abi, signer);
+
+            console.log("Initialize payment");
+            let nftTxn = await nftContract.mintNFTs(1, { value: ethers.utils.parseEther("0.01") });
+
+            console.log("Mining... please wait");
+            await nftTxn.wait();
+
+            console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+
+        } else {
+            console.log("Ethereum object does not exist");
+        }
+
+        } catch (err) {
+        console.log(err);
+        }
+    }
 
     const connectWalletButton = () => {
         return (
@@ -122,9 +188,9 @@ Repositorio para curso de desarrollo de contratos inteligentes
 
     return (
         <div className='main-app'>
-        <h1>Scrappy Squirrels Tutorial</h1>
+        <h1>NFT Minting Tutorial</h1>
         <div>
-            {connectWalletButton()}
+            {currentAccount ? mintNftButton() : connectWalletButton()}
         </div>
         </div>
     )
