@@ -21,6 +21,37 @@ Repositorio para curso de desarrollo de contratos inteligentes
 * [OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/) Tokens Docs 4.x
 * [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/release-v4.2/contracts/token) Tokens Github
 
+# Creacion de Contratos
+
+1. Instalar Hardhat
+    ``` 
+        npm install --save-dev hardhat
+    ``` 
+
+2. Inicializar el repo con Hardhat
+    ``` 
+        npx hardhat
+    ```
+
+    ``` 
+        npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
+    ``` 
+
+3. Compilar los contratos
+
+    ``` 
+        npx hardhat compile
+    ``` 
+
+4. Probar los contratos
+    ``` 
+        npx hardhat test
+    ``` 
+
+5. Hacer deploy del contrato
+    ``` 
+        npx hardhat run scripts/sample-script.js
+    ``` 
 
 ## Aplicacion para mintear NFTs
 
