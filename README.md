@@ -1,36 +1,46 @@
 # SC-Development
-Repositorio para curso de desarrollo de contratos inteligentes
 
-## Configuracion del entorno
+Smart Contracts Development Guide
 
-1. Empezamos instalando la Wallet [Metamask](https://metamask.io/) para nuestro navegador
-2. Conectamos la wallet a la red Ropsten o Rinkeby y obtenemos ETH de prueba desde la faucet de [Rinkeby](https://faucet.rinkeby.io/) o de [Ropsten](https://faucet.metamask.io/)
-3. Instalamos [NodeJS LTS](https://nodejs.org/es/download/)
-4. Instalamos la utilería [Hardhat](https://hardhat.org/getting-started/)
-5. Instalamos la utilería [Truffle](https://trufflesuite.com/docs/truffle/getting-started/installation.html) 
-6. Creamos una cuenta en [github](https://github.com/)
-7. Instalamos [Visual Studio Code](https://code.visualstudio.com/download)
-8. Instalar [remixd](https://www.npmjs.com/package/@remix-project/remixd)
-9. Instalamos [IPFS Desktop](https://github.com/ipfs/ipfs-desktop/releases)
-10. Creamos una cuenta en [NFT.Storage] y obtenemos el API Key 
-11. De manera opcional creamos una cuenta en [Pinata Cloud](https://www.pinata.cloud/)
+## Environment Configuration
 
-# Links de Herramientas
+1. Install [Metamask](https://metamask.io/) for your browser
+2. Connect Metamask wallet to the Goerli testnet
+    Name:               Goerli test network
+    New RPC URL:        https://goerli.infura.io/v3/
+    Chain ID:           5
+    Currency symbol:    GoerliETH
+    Block explorer URL: https://goerli.etherscan.io
+    Visit [RPC Info](https://rpc.info/) if you want to connect to other networks.
+3. Install [NodeJS LTS](https://nodejs.org/es/download/)
+4. Install [Hardhat](https://hardhat.org/getting-started/)
+5. Install [Truffle](https://trufflesuite.com/docs/truffle/getting-started/installation.html) 
+6. Create a Github [github](https://github.com/)
+7. Install [Visual Studio Code](https://code.visualstudio.com/download)
+8. Install [remixd](https://www.npmjs.com/package/@remix-project/remixd)
+9. Install [IPFS Desktop](https://github.com/ipfs/ipfs-desktop/releases)
+10. Create an account [NFT.Storage] and get the API Key
+11. If you prefer, you can create an account at [Pinata Cloud](https://www.pinata.cloud/)
+
+# Tools
 
 * [Remix](https://remix.ethereum.org/)
 * [OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/) Tokens Docs 4.x
 * [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/release-v4.2/contracts/token) Tokens Github
 * [Solidity](https://docs.soliditylang.org/en/v0.8.10/introduction-to-smart-contracts.html) 
 * [OpenSea Testnet](https://testnets.opensea.io/)
+* [Contracts Wizard](https://wizard.openzeppelin.com/)
 
-# Creacion de Contratos
+# Creating Contrats
 
-1. Instalar Hardhat
+Please create a new npm application with npm init -y
+
+1. Install Hardhat
     ``` 
         npm install --save-dev hardhat
     ``` 
 
-2. Inicializar el repo con Hardhat
+2. Initialize Hardhat repo
     ``` 
         npx hardhat
     ```
@@ -39,57 +49,57 @@ Repositorio para curso de desarrollo de contratos inteligentes
         npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
     ``` 
 
-3. Compilar los contratos
+3. Install Openzeppelin dependencies
+
+    ``` 
+        npm install @openzeppelin/contracts
+    ``` 
+4. Compile the contracts
 
     ``` 
         npx hardhat compile
     ``` 
 
-4. Probar los contratos
+5. Test the contracts
     ``` 
         npx hardhat test
     ``` 
 
-5. Hacer deploy del contrato
+6. Deploy the contract
     ``` 
         npx hardhat run scripts/sample-script.js
     ``` 
 
-6. Integrar con Remix IDE
+7. Integrate to Remix IDE
 
     ``` 
         remixd -s ./ -u https://remix.ethereum.org
     ``` 
 
-7. Instalar Openzeppelin
+## Application to mint NFTs
 
-    ``` 
-        npm install @openzeppelin/contracts
-    ``` 
-
-## Aplicacion para mintear NFTs
-
-1. Crear la aplicación web
+1. Create a new application in a new folder
 
     ``` 
         npx create-react-app my-tokens-front
     ``` 
 
-2. Probamos la nueva app
+2. Test the new app
 
     ``` 
         cd nft-collectible-frontend
         npm start
     ``` 
 
-3. Crear carpeta contracts en la carpeta src de la nueva app
-4. Agregar el ABI del contrato en un nuevo archivo myNFTToken.json
-5. Instalar Ethers.js
+3. Create a new contracts' folder in the src folder of the new app
+4. Add contract's ABI in a new file named myNFTToken.json
+5. Install Ethers.js
 ``` 
     npm install --save ethers
 ``` 
 
-5. Remplazar el contenido del archivo app.js por lo siguiente:
+5. Replace the content of the app.js adding this code:
+
     ``` javascript
     import { useEffect, useState } from 'react';
     import './App.css';
@@ -155,7 +165,7 @@ Repositorio para curso de desarrollo de contratos inteligentes
             console.log("Mining... please wait");
             await nftTxn.wait();
 
-            console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+            console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
 
         } else {
             console.log("Ethereum object does not exist");
@@ -198,7 +208,7 @@ Repositorio para curso de desarrollo de contratos inteligentes
 
     export default App;
     ``` 
-6. Remplazar el contenido del archivo App.css:
+6. Replace App.css:
 
     ``` css
         .main-app {
