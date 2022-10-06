@@ -46,7 +46,7 @@ Please create a new npm application with npm init -y
     ```
 
     ``` 
-        npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
+        npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers @nomicfoundation/hardhat-toolbox
     ``` 
 
 3. Install Openzeppelin dependencies
